@@ -1,13 +1,18 @@
-# init.py
-
+# __init__.py
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask import Flask, render_template, session
 import logging
+import auxiliary
 
-logging.basicConfig(level=logging.DEBUG)
-logging.basicConfig(filename=’demo.log‘, format=’%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s’)
+logEngine = logging.getLogger(__NAME__)
+
+logEngine.basicConfig(level=logging.DEBUG)
+logEngine.basicConfig(
+    filename="demo.log",
+    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
+)
 
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
 # init SQLAlchemy so we can use it later in our models
@@ -19,6 +24,7 @@ def create_app():
 
     app.config["SECRET_KEY"] = "9OLWxND4o83j4K4iuopO"
     app.config["SQLALCHEMY_DATABASE_URI"] = dbs
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
 
@@ -35,7 +41,7 @@ def create_app():
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
-``
+
     app.register_blueprint(auth_blueprint)
 
     # blueprint for non-auth parts of app

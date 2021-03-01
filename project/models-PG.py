@@ -18,7 +18,15 @@ from sqlalchemy import (
     func,
     LargeBinary,
 )
+import logging
+import auxiliary
 
+logEngine = logging.getLogger(__name__)
+logEngine.basicConfig(
+    level=logging.DEBUG,
+    filename="demo.log",
+    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
+)
 
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
 from sqlalchemy.orm import mapper

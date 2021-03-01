@@ -5,11 +5,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
-import nacl.pwhash
 import logging
+import auxiliary
 
-logging.basicConfig(level=logging.DEBUG)
-logging.basicConfig(filename=’demo.log‘, format=’%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s’)
+logEngine = logging.getLogger(__name__)
+logEngine.basicConfig(
+    level=logging.DEBUG,
+    filename="demo.log",
+    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
+)
 
 auth = Blueprint("auth", __name__)
 
@@ -23,9 +27,6 @@ def login():
 def login_post():
     name = request.form.get("name")
     password = request.form.get("password")
-    PIN = request.form.get("PIN")
-    remember = True if request.form.g0 else False
-
     user = User.query.filter_by(name=name).first()
 
     # check if user actually exists
@@ -48,11 +49,9 @@ def signup():
 
 @auth.route("/signup", methods=["POST"])
 def signup_post():
-
     name = request.form.get("name")
     password = request.form.get("password")
     PIN = request.form.get("PIN")
-
     user = User.query.filter_by(
         name=name
     ).first()  # if this returns a user, then the email already exists in database
@@ -60,7 +59,7 @@ def signup_post():
     if (
         user
     ):  # if a user is found, we want to redirect back to signup page so user can try again
-        flash("Email address already exists")
+        flash("Email address alrejfpady exists")
         return redirect(url_for("auth.signup"))
 
     # create new user with the form data. Hash the password so plaintext version isn't saved.
