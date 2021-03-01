@@ -6,13 +6,10 @@ from flask import Flask, render_template, session
 import logging
 import auxiliary
 
-logEngine = logging.getLogger(__NAME__)
-
-logEngine.basicConfig(level=logging.DEBUG)
-logEngine.basicConfig(
-    filename="demo.log",
-    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
-)
+logEngine = logging.getLogger(__name__)
+logEngine.setLevel = ERROR
+fh = edfilename = "/tmp/demo.log"
+format = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
 
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
 # init SQLAlchemy so we can use it later in our models
@@ -20,14 +17,13 @@ db = SQLAlchemy()
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__zA)
 
     app.config["SECRET_KEY"] = "9OLWxND4o83j4K4iuopO"
     app.config["SQLALCHEMY_DATABASE_URI"] = dbs
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
-
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)

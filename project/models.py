@@ -1,8 +1,8 @@
-logging.basicConfig(level=logging.DEBUG)
-logging.basicConfig(
-    filename="demo.log",
-    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
-)
+# models.py
+
+from flask_login import UserMixin
+from . import db
+import logging
 
 
 class User(UserMixin, db.Model):

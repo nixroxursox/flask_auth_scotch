@@ -8,7 +8,7 @@ import auxiliary_module
 logger = logging.getLogger("spam_application")
 logger.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
-fh = logging.FileHandler("spam.log")
+`````fh = logging.FileHandler("spam.log")`````
 fh.setLevel(logging.DEBUG)
 # create console handler with a higher log levelname
 ch = logging.StreamHandler()
