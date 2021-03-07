@@ -5,13 +5,8 @@ from flask_login import LoginManager
 from flask import Flask, render_template, session
 import logging
 
-logEngine = logging.getLogger(__name__)
-logEngine.basicConfig(
-    level=logging.DEBUG,
-    filename="/tmp/demo.log",
-    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
-)
-dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
+
+dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 

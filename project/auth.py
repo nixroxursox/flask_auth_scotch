@@ -8,13 +8,6 @@ from . import db
 import logging
 
 
-logEngine = logging.getLogger(__name__)
-logEngine.basicConfig(
-    level=logging.DEBUG,
-    filename="demo.log",
-    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
-)
-
 auth = Blueprint("auth", __name__)
 
 

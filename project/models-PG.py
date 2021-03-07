@@ -1,7 +1,7 @@
 import datetime
 import flask_sqlalchemy
 from sqlalchemy import (
-    Tab,
+    Table,
     Column,
     Integer,
     BigInteger,
@@ -21,24 +21,16 @@ from sqlalchemy import (
 import logging
 
 
-"}
-\"
-logEngine = logging.getLogger(__name__)
-logEngine.basicConfig(
-    level=logging.DEBUG,
-    filename="demo.log",
-    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
-)
-
-dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
+dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
 from sqlalchemy.orm import mapper
+from sqlalchemy.dialects import postgresql
 
 
 e = create_engine(dbs)
 m = MetaData()
 
-products = Table(
-    "products",
+product = Table(
+    "product",
     m,
     Column("id", Integer, primary_key=True),
     Column("name", String(255), unique=True, nullable=False),
@@ -84,8 +76,8 @@ user = Table(
     Column("bip32_key", Text, nullable=True),
     Column("bip32_key_integer", BigInteger, nullable=True),
     Column("is_vendor", SmallInteger, default=0),
-    Column("created", DateTime, nullable=False, default=now()),
-    Column("modified", DateTime, nullable=False, onupdate=now()),
+    Column("created", DateTime, nullable=False, default=func.now()),
+    Column("modified", DateTime, nullable=False, onupdate=func.now()),
 )
 
 
@@ -138,7 +130,7 @@ class Admin(object):
         sef.isModerator = isModerator
 
 
-mapper(Product, products)
+mapper(Product, product)
 mapper(User, user)
 mapper(Admin, admin)
 
