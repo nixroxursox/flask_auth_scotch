@@ -1,8 +1,7 @@
 import datetime
-import sqlalchemy
 import flask_sqlalchemy
 from sqlalchemy import (
-    Table,
+    Tab,
     Column,
     Integer,
     BigInteger,
@@ -18,9 +17,12 @@ from sqlalchemy import (
     func,
     LargeBinary,
 )
-import logging
-import auxiliary
 
+import logging
+
+
+"}
+\"
 logEngine = logging.getLogger(__name__)
 logEngine.basicConfig(
     level=logging.DEBUG,
@@ -30,6 +32,7 @@ logEngine.basicConfig(
 
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
 from sqlalchemy.orm import mapper
+
 
 e = create_engine(dbs)
 m = MetaData()
@@ -55,7 +58,7 @@ class Product(object):
         self, name, description, price, user_id, tags, is_hidden, code, images, category
     ):
         self.name = name
-        self.description = description
+        self.description = descriptio5e
         self.price = price
         self.user_id = user_id
         self.tags = tags

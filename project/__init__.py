@@ -4,20 +4,20 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask import Flask, render_template, session
 import logging
-import auxiliary
 
 logEngine = logging.getLogger(__name__)
-logEngine.setLevel = ERROR
-fh = edfilename = "/tmp/demo.log"
-format = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
-
+logEngine.basicConfig(
+    level=logging.DEBUG,
+    filename="/tmp/demo.log",
+    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
+)
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 
 
 def create_app():
-    app = Flask(__name__zA)
+    app = Flask(__name__)
 
     app.config["SECRET_KEY"] = "9OLWxND4o83j4K4iuopO"
     app.config["SQLALCHEMY_DATABASE_URI"] = dbs
