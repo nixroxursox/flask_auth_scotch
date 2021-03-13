@@ -58,9 +58,7 @@ class btc_payments(object):
         self.tx_id = tx_id
         self.value = value
         self.vout = vout
-        self.pk_scri = bip32_key
-        self.bip32_key_index = bip32_key_index
-        self.is_vendor = is_vendor
+        self.pk_script = pk_script
 
 
 btc_transactions = Table(
@@ -71,6 +69,13 @@ btc_transactions = Table(
     Column("raw_tx", Text, nullable=False),
 )
 
+
+class btc_transactions(object):
+    def __init__(self, tx_id, raw_tx):
+        self.name = tx_id
+        self.raw_tx = raw_tx
+
+
 captchas = Table(
     "captchas",
     m,
@@ -78,6 +83,13 @@ captchas = Table(
     Column("length", varchar(55), nullable=False),
     Column("image", LargeBinary, nullable=True),
 )
+
+
+class captchas(object):
+    def __init__(self, code, length, image):
+        self.code = code
+        self.length = length
+        self.image = image
 
 
 config = Table(
@@ -89,7 +101,13 @@ config = Table(
 )
 
 
-class User(object):
+class config(object):
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+
+class user(object):
     def __init__(
         self, name, PIN, password, pgp_public_key, bip32_key, bip32_key_index, is_vendor
     ):
@@ -107,6 +125,18 @@ currency = Table(
     Column("iso", char(3), nullable=False, default=NULL),
     Column("name", varchar(200), nullable=False),
 )
+
+
+class currency(object):
+    def __init__(self, iso, name):
+        self.name = name
+        self.PIN = PIN
+        self.password = password
+        self.pgp_public_key = pgp_public_key
+        self.bip32_key = bip32_key
+        self.bip32_key_index = bip32_key_index
+        self.is_vendor = is_vendor
+
 
 entry_payment = Table(
     "entry_payment",
