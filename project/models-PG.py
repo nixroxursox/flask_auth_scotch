@@ -1,5 +1,8 @@
 import datetime
 import flask_sqlalchemy
+import logging
+from sqlalchemy.orm import mapper
+from sqlalchemy.dialects import postgresql
 from sqlalchemy import (
     Table,
     Column,
@@ -18,12 +21,7 @@ from sqlalchemy import (
     LargeBinary,
 )
 
-import logging
-
-
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
-from sqlalchemy.orm import mapper
-from sqlalchemy.dialects import postgresql
 
 
 e = create_engine(dbs)

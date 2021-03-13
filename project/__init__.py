@@ -3,8 +3,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask import Flask, render_template, session
+from decouple import config
 import logging
-
 
 dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
 # init SQLAlchemy so we can use it later in our models
