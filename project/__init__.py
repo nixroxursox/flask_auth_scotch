@@ -6,22 +6,28 @@ from flask import Flask, render_template, session
 from decouple import config
 import logging
 
-dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
+dbs = (
+    "postgresql+psycopg2://postgres:"
+    + config("DB_PASS")
+    + "@localhost:5432/"
+    + config("DB_NAME")
+)
+
+
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 
 
 def create_app():
     app = Flask(__name__)
-
-    app.config["SECRET_KEY"] = "9OLWxND4o83j4K4iuopO"
+    app.config["SECRET_KEY"] = config("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = dbs
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
     login_manager = LoginManager()
-    login_manager.login_view = "auth.login"
-    login_manager.init_app(app)
+    login_manager.login_view = "auth.log`````````````````````````in"
+    w4  # WARNING:                  login_manager.init_app(app)
 
     from .models import User
 

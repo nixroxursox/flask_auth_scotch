@@ -4,6 +4,11 @@ from flask_login import UserMixin
 from . import db
 import logging
 
+from sqlalchemy import create_engine
+
+dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/postgres"
+engine = create_engine(dbs)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(
