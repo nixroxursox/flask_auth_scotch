@@ -1,5 +1,6 @@
 import datetime
 import flask_sqlalchemy
+from decouple import config
 import logging
 from sqlalchemy.orm import mapper
 from sqlalchemy.dialects import postgresql
@@ -21,8 +22,14 @@ from sqlalchemy import (
     LargeBinary,
 )
 
-dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
+# dbs = "postgresql+psycopg2://postgres:passw0rd@localhost:5432/webauth"
 
+dbs = (
+    "postgresql+psycopg2://postgres:"
+    + config("DB_PASS")
+    + "@localhost:5432/"
+    + config("DB_NAME")
+)
 
 e = create_engine(dbs)
 m = MetaData()
@@ -40,6 +47,21 @@ product = Table(
     Column("images", LargeBinary, nullable=True),
     Column("category", BigInteger, nullable=True),
 )
+
+
+class product(object):
+    def __init__(
+        self, name, description, user_id, tags, is_hidden, code, images, category
+    ):
+        self.name = name
+        self.description = description
+        self.user_id = user_id
+        self.tags = tags
+        self.is_hidden = is_hidden
+        self.code = code
+        self.images = images
+        self.category = category
+
 
 btc_payments = Table(
     "btc_payments",
@@ -122,6 +144,7 @@ class user(object):
 
 currency = Table(
     "currency",
+    m,
     Column("iso", String(3), nullable=False, default=""),
     Column("name", String(200), nullable=False),
 )
@@ -137,7 +160,7 @@ entry_payment = Table(
     "entry_payment",
     m,
     Column("id", Integer, autoincrement=True, primary_key=True),
-    Column("user_hash", String(25), unique=True, foreign_key=user_hash, nullable=False),
+    Column("user_hash", String(25), unique=True, nullable=False),
     Column("amount", Numeric, nullable=False),
     Column("time", String(20), nullable=False),
     Column("bitcoin_address", String(40), nullable=False),
@@ -157,21 +180,21 @@ orders = Table(
     m,
     Column("id", Integer, autoincrement=True, primary_key=True),
     Column("title", String(255), nullable=False),
-    Column("state", tinyint(1), nullable=False, default=0),
+    Column("state", Integer, nullable=False, default=0),
     Column("price", Numeric, nullable=False),
-    Column("amount", int(11), nullable=False),
+    Column("amount", BigInteger, nullable=False),
     Column("shipping_infos", Text),
     Column("finish_text", Text),
-    Column("buyer_id", int(11), nullable=False),
-    Column("vendor_id", int(11), nullable=False),
-    Column("product_id", int(11), default=""),
-    Column("shipping_option_id", int(11), default=""),
+    Column("buyer_id", BigInteger, nullable=False),
+    Column("vendor_id", BigInteger, nullable=False),
+    Column("product_id", BigInteger, default=""),
+    Column("shipping_option_id", BigInteger, default=""),
     Column("vendor_public_key", String(66), default=""),
-    Column("vendor_key_index", int(9), default=""),
+    Column("vendor_key_index", BigInteger, default=""),
     Column("vendor_payout_address", String(35), default=""),
     Column("admin_public_key", String(66), default=""),
-    Column("admin_key_index", int(9), default=""),
-    Column("multisig_address", String(35), uniquesAdefault=""),
+    Column("admin_key_index", BigInteger, default=""),
+    Column("multisig_address", String(35), unique=True, default=""),
     Column("redeem_script", String(500), default=""),
     Column("unsigned_transaction", Text),
     Column("partially_signed_transaction", Text),
@@ -293,7 +316,7 @@ class Admin(object):
         sef.isModerator = isModerator
 
 
-mapper(Product, product)
+mapper(product, product)
 mapper(User, user)
 mapper(Admin, admin)
 mapper(orders, orders)
