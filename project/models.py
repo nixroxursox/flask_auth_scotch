@@ -1,8 +1,8 @@
 # models.py
-
 from flask_login import UserMixin
 from . import db
 import logging
+from sqlalchemy import create_engine
 
 
 class User(UserMixin, db.Model):

@@ -1,12 +1,11 @@
 # auth.py
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
 import logging
-import auxiliary
+import nacl.pwhash
 
 logEngine = logging.getLogger(__name__)
 print(logEngine)
@@ -34,8 +33,8 @@ def login_post():
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if (
         not user
-        or not nacl.pwhash.argon2id.str.verify(user.password, b"password")
-        or not nacl.pwhash.argon2id.str.verify(user.PIN, b"PIN")
+        or not nacl.pwhash.argon2id.verify(user.password, password)
+        or not nacl.pwhash.argon2id.verify(user.PIN, PIN)
     ):
         flash("Please check your login details and try again.")
         return redirect(url_for("auth.login"))
@@ -60,7 +59,7 @@ def signup_post():
     if (
         user
     ):  # if a user is found, we want to redirect back to signup page so user can try again
-        flash("Email address alrejfpady exists")
+        flash("Email address already exists")
         return redirect(url_for("auth.signup"))
 
     # create new user with the form data. Hash the password so plaintext version isn't saved.
