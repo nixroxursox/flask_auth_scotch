@@ -16,29 +16,17 @@ dbs = (
 )
 
 
-# init SQLAlchemy so we can use it later in our models
-db = SQLAlchemy()
-
-
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = config("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = dbs
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    login_manager = LoginManager()
+    login_manager.login_view = "auth.login"
 
+    def load_user(user_id):
+        return User.get(user_id)
 
-login_manager = LoginManager()
-login_manager.login_view = "auth.login"
-login_manager.init_app(app)
-
-
-@login_manager.user_loader
-def load_user(name):
-    return User.query.get(name)
-    # since the user_id is just the primary key of our user table, use it in the query for the user
-    return User.query.get(int(user_id))
-
-    # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
 
     app.register_blueprint(auth_blueprint)
@@ -47,5 +35,4 @@ def load_user(name):
     from .main import main as main_blueprint
 
     app.register_blueprint(main_blueprint)
-
     return app
