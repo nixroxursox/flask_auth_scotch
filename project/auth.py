@@ -9,8 +9,9 @@ import logging
 import auxiliary
 
 logEngine = logging.getLogger(__name__)
+print(logEngine)
 logEngine.basicConfig(
-    level=logging.DEBUG,
+    level="DEBUG",
     filename="demo.log",
     format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s",
 )
