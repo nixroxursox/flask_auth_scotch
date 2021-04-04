@@ -2,11 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask import Flask, render_template
+from decouple import config
 
-logEngine = logging.getLogger(__name__)
-logEngine.setLevel = "ERROR"
-fh = edfilename = "/tmp/demo.log"
-format = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
 
 dbs = (
     "postgresql+psycopg2://postgres:"
@@ -22,6 +19,8 @@ def create_app():
     app.config["SECRET_KEY"] = "9OLWxND4o83j4K4iuopO"
     app.config["SQLALCHEMY_DATABASE_URI"] = dbs
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+    mongo = PyMongo(app)
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
 
